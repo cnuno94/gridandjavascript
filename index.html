@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid</title>
+</head>
+<body>
+    
+</body>
+<script>
+    const firstdiv = document.createElement("div");
+    const but = document.createElement("button");
+    const reset = document.createElement("button");
+    reset.innerHTML = "Reset";
+    but.innerHTML = "Press here to start";
+    const width = 150;
+    but.style.setProperty("width",width + "px");
+    reset.style.setProperty("width",width + "px");
+    document.body.style.cssText = ("width:1200px;display:flex;flex-direction:column;align-items:center;margin: 0px auto;");
+
+    //////////////////Event Listeners
+    but.addEventListener("click", () => {
+        let userinput;
+        do {
+            userinput = prompt ("Input one dimension from the square diagram");
+            userinput = parseInt (userinput);
+        }
+        while (userinput <= 1);
+        gridding(userinput);
+    });
+    reset.addEventListener("click", ()=>{
+        if (document.body.childNodes.length >= 9){
+        resetting();
+        }
+        else {
+            console.log("CAN'T RESET")
+        }
+    });
+    but.addEventListener("mouseover", ()=>{
+        but.style.setProperty("background-color","red");
+    })
+    but.addEventListener("mouseout",()=>{
+        but.style.setProperty("background-color","");
+    })
+    reset.addEventListener("mouseover", ()=>{
+        reset.style.setProperty("background-color","red");
+    })
+    reset.addEventListener("mouseout",()=>{
+        reset.style.setProperty("background-color","");
+    })
+    ////////////////////////////
+    //////////////////
+    document.body.appendChild(firstdiv);
+    firstdiv.appendChild(but);
+    firstdiv.appendChild(reset);
+    //////
+
+    function gridding (dimension){
+        const gridwidth = 640;
+        const squarewidth = Math.floor(640/dimension)-3;
+        const numberofsquares = dimension * dimension;
+        const dadgrid = document.createElement("div");
+        dadgrid.style.setProperty("width", gridwidth + "px");
+        dadgrid.style.setProperty("height", gridwidth + "px");
+        let array = [document.createElement("div")];
+        let i = 1;
+        let j = 0;
+        array[0].style.setProperty("width",squarewidth + "px");
+        array[0].style.setProperty("height",squarewidth + "px");
+        array[0].style.setProperty("background-color","red");
+        array[0].style.setProperty("border",1 + "px solid");
+        do {
+            array.push(document.createElement("div"));
+            array[i].style.setProperty("width",squarewidth + "px");
+            array[i].style.setProperty("height",squarewidth + "px");
+            array[i].style.setProperty("background-color","red");
+            array[i].style.setProperty("border",1 + "px solid");
+            i++;
+        } while(i <= numberofsquares-1);
+        do {
+            dadgrid.appendChild(array[j]);
+            j++;
+        } while (j <= numberofsquares-1);
+        document.body.appendChild(dadgrid);
+        dadgrid.style.setProperty("display","flex");
+        dadgrid.style.setProperty("flex-wrap","wrap");
+        const iterable = dadgrid.querySelectorAll("div");
+        for (i of iterable) {
+            i.addEventListener('mouseover', function() {
+                this.style.setProperty("background-color","blue");
+            });
+            i.addEventListener('mouseout', function() {
+                this.style.setProperty("background-color","red");
+            });
+        }
+        /////////////
+    }
+    ///////////////
+
+    function resetting () {
+        const body = document.body;
+        body.removeChild(body.lastChild);
+    }
+
+</script>
+</html>
